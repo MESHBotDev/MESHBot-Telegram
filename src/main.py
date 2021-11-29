@@ -28,8 +28,8 @@ async def get_text_messages(msg: types.Message):
     if msg.text.startswith("http"):
         answers = core.get_answers(link = msg.text)
         try:
-            for task_number, task in enumerate(answers):
-	            await msg.answer(f"Вопрос №{task_number + 1}: {task[0]}\n\nОтвет: {task[1]}")
+             for task_number, task in enumerate(answers):
+                await msg.answer(f"Вопрос №{task_number + 1}: {task[0]}\n\nОтвет: {task[1]}")
         except:
             await msg.answer(answers)
     else:
