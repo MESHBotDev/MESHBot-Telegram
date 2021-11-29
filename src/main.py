@@ -7,6 +7,7 @@ from aiogram.utils import executor
 
 import core.searching_answers as core
 
+
 with open("package/client.json", "r") as f:
     data = load(f)
 client = Dispatcher(Bot(token=data["telegram_token"]))
@@ -25,7 +26,7 @@ async def manual(msg: types.Message):
 @client.message_handler(content_types=["text"])
 async def get_text_messages(msg: types.Message):
     if msg.text.startswith("http"):
-        answers = core.get_answers(link = msg.text)
+        answers = core.get_answers(link=msg.text)
         try:
             for task_number, task in enumerate(answers):
                 await msg.answer(f"Вопрос №{task_number + 1}: {task[0]}\n\nОтвет: {task[1]}")
