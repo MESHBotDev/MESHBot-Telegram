@@ -20,7 +20,6 @@ async def manual(msg: types.Message):
 Для начала работы, отправь мне ссылку на тест и я постараюсь найти ответы.
 
 Доп. информация:
-• Бета функции будут указаны в команде /commands
 • Исходный код бота: {sys['github_link']}""")
 
 @client.message_handler(content_types=["text"])
