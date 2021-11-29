@@ -21,7 +21,7 @@ async def manual(msg: types.Message):
 
 Доп. информация:
 • Бета функции будут указаны в команде /commands""")
-#• Исходный код бота: #{sys['github_link']}""")
+• Исходный код бота: {sys['github_link']}""")
 
 @client.message_handler(content_types=["text"])
 async def get_text_messages(msg: types.Message):
