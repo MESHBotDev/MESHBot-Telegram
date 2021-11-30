@@ -1,5 +1,7 @@
 {
     "name": "MESH",
-    "version": "0.0.65",
-    "github_link": "https://github.com/MESHBotDev/MESHBot-Telegram"
+    "version": "0.1.7",
+    "help_place": ""
+    "github_link": "https://github.com/MESHBotDev/MESHBot-Telegram",
+    "github_issues": ""
 }
