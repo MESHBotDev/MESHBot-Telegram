@@ -26,11 +26,11 @@ async def manual(msg: types.Message):
 Там Вам помогут с сложившейся ситуацией.""")
 
 
-@client.message_handler(commands=['admin', 'analitic'])
+@client.message_handler(commands=['admin', 'analytic'])
 async def admin(msg: types.Message):
-    with open("analitics.txt", "r") as analitic:
+    with open("analytics.txt", "r") as analytic:
         if msg.from_user.id == 489951151:
-            for id_user in analitic.readlines():
+            for id_user in analytic.readlines():
                 await msg.answer(f'id: {id_user}')
         else:
             await msg.answer("Для начала, отправь ссылку на тест, и я попробую его решить.")
