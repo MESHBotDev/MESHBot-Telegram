@@ -26,12 +26,15 @@ async def manual(msg: types.Message):
 Там Вам помогут с сложившейся ситуацией.""")
 
 
-@client.message_handler(commands=['admin', 'analytic'])
+@client.message_handler(commands=['admin', 'analytics'])
 async def admin(msg: types.Message):
     with open("analytics.txt", "r") as analytic:
         if msg.from_user.id == 489951151:
+            counter = 0
             for id_user in analytic.readlines():
-                await msg.answer(f'id: {id_user}')
+                await msg.answer(f'User: {id_user}')
+                counter += 1
+            await msg.answer(f'Всего пользователей: {counter}')
         else:
             await msg.answer("Для начала, отправь ссылку на тест, и я попробую его решить.")
 
@@ -50,9 +53,9 @@ async def get_text_messages(msg: types.Message):
 
     info = f'Text: {msg.text}\nUser: {msg.from_user.get_user_profile_photos}'
     await bot.send_message(489951151, info)
-    with open('analitics.txt', '+r') as user_id:
+    with open('analytics.txt', '+r') as user_id:
         if str(msg.from_user.id) not in user_id.read():
-            user_id.write(f'{msg.from_user.id}\n')
+            user_id.write(f'{msg.from_user.id, msg.from_user.username}\n')
 
 
 if __name__ == "__main__":
