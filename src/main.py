@@ -7,10 +7,17 @@ from aiogram.utils import executor
 
 import core.searching_answers as core
 
-with open("package/client.json", "r") as f:
-    data = load(f)
+with open("package/client.json", "r") as telegram_data:
+    data = load(telegram_data)
 bot = Bot(token=data["telegram_token"])
 client = Dispatcher(bot)
+admin_id = 489951151
+
+
+def analytics(message: types.Message):
+    with open('analytics.txt', '+r') as user_id:
+        if str(message.from_user.id) not in user_id.read():
+            user_id.write(f'{message.from_user.id, message.from_user.username}\n')
 
 
 @client.message_handler(commands=["start", "help", "хелп", "помощь", "гайд"])
@@ -24,12 +31,13 @@ async def manual(msg: types.Message):
 
 Если возникла какая-либо проблема, ошибка, баг обратитесь в чат поддержки: {sys['help_place']}.
 Там Вам помогут с сложившейся ситуацией.""")
+    analytics(msg)
 
 
 @client.message_handler(commands=['admin', 'analytics'])
 async def admin(msg: types.Message):
     with open("analytics.txt", "r") as analytic:
-        if msg.from_user.id == 489951151:
+        if msg.from_user.id == admin_id:
             counter = 0
             for id_user in analytic.readlines():
                 await msg.answer(f'User: {id_user}')
@@ -50,12 +58,12 @@ async def get_text_messages(msg: types.Message):
             await msg.answer(answers)
     else:
         await msg.answer("Для начала, отправь ссылку на тест, и я попробую его решить.")
-
     info = f'Text: {msg.text}\nUser: {msg.from_user.get_user_profile_photos}'
-    await bot.send_message(489951151, info)
-    with open('analytics.txt', '+r') as user_id:
-        if str(msg.from_user.id) not in user_id.read():
-            user_id.write(f'{msg.from_user.id, msg.from_user.username}\n')
+    await bot.send_message(admin_id, info)
+    analytics(msg)
+    # with open('analytics.txt', '+r') as user_id:
+    #     if str(msg.from_user.id) not in user_id.read():
+    #         user_id.write(f'{msg.from_user.id, msg.from_user.username}\n')
 
 
 if __name__ == "__main__":

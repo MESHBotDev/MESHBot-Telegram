@@ -10,6 +10,9 @@ async def post():
         for id_user in analytic.readlines():
             await bot.send_message(id_user, text)
 
+# async def post():
+#     await bot.send_message(489951151, text)
+
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(post())
