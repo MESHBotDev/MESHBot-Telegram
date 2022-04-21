@@ -1,5 +1,7 @@
 from json import load
 from datetime import datetime
+import time
+from functools import lru_cache
 
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
@@ -12,6 +14,7 @@ with open("package/client.json", "r") as telegram_data:
 bot = Bot(token=data["telegram_token"])
 client = Dispatcher(bot)
 admin_id = 489951151
+katya_id = 857280061
 
 
 def analytics(message: types.Message):
@@ -24,11 +27,9 @@ def analytics(message: types.Message):
 async def manual(msg: types.Message):
     with open("package/client_lock.json", "r") as file:
         sys = load(file)
-    await msg.answer(f"""Привет, {msg.from_user.first_name}.\nЯ - бот {sys['name']}, решающий задания ЦДЗ.
-    \nВК создателя: {sys['vk']}\n(v. {sys['version']})
-
-Для начала работы, отправь мне ссылку на тест и я постараюсь найти ответы.
-
+    await msg.answer(f"""Привет, {msg.from_user.first_name}.\nЯ - бот {sys['name']}, решающий ЦДЗ. (v. {sys['version']})
+    \nВК создателя: {sys['vk']}\n
+Для начала работы, отправь мне ссылку на тест и я постараюсь найти ответы.\n
 Если возникла какая-либо проблема, ошибка, баг обратитесь в чат поддержки: {sys['help_place']}.
 Там Вам помогут с сложившейся ситуацией.""")
     analytics(msg)
@@ -37,33 +38,42 @@ async def manual(msg: types.Message):
 @client.message_handler(commands=['admin', 'analytics'])
 async def admin(msg: types.Message):
     with open("analytics.txt", "r") as analytic:
-        if msg.from_user.id == admin_id:
+        if msg.from_user.id == admin_id or msg.from_user.id == katya_id:
             counter = 0
-            for id_user in analytic.readlines():
-                await msg.answer(f'User: {id_user}')
+            for number, id_user in enumerate(analytic.readlines()):
+                await msg.answer(f'{number+1}. User: {id_user}')
                 counter += 1
             await msg.answer(f'Всего пользователей: {counter}')
         else:
             await msg.answer("Для начала, отправь ссылку на тест, и я попробую его решить.")
 
 
+@lru_cache(None)
 @client.message_handler(content_types=["text"])
 async def get_text_messages(msg: types.Message):
     if msg.text.startswith("http"):
-        answers = core.get_answers(link=msg.text)
+        result_answers = []
+        start_time = time.time()
+        await msg.answer("Начал решать...")
         try:
-            for task_number, task in enumerate(answers):
-                await msg.answer(f"Вопрос №{task_number + 1}: {task[0]}\n\nОтвет: {task[1]}")
+            for all_answers in range(25):
+                answers = core.get_answers(link=msg.text)
+                for answer in answers:
+                    while answer not in result_answers:
+                        result_answers.append(answer)
         except:
-            await msg.answer(answers)
+            await msg.answer(''.join(result_answers))
+        try:
+            for task_number, task in enumerate(result_answers):
+                await msg.answer(f"Вопрос №{task_number + 1}: {task[0]}\n\nОтвет: {task[1]}")
+            await msg.answer(f"Сделано за {'%s секунд' % round((time.time() - start_time), 1)}")
+        except:
+            await msg.answer(''.join(result_answers))
     else:
         await msg.answer("Для начала, отправь ссылку на тест, и я попробую его решить.")
     info = f'Text: {msg.text}\nUser: {msg.from_user.get_user_profile_photos}'
     await bot.send_message(admin_id, info)
     analytics(msg)
-    # with open('analytics.txt', '+r') as user_id:
-    #     if str(msg.from_user.id) not in user_id.read():
-    #         user_id.write(f'{msg.from_user.id, msg.from_user.username}\n')
 
 
 if __name__ == "__main__":
