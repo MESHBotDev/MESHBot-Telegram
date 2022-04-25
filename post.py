@@ -2,7 +2,7 @@ from aiogram import Bot
 import asyncio
 
 bot = Bot(token='1565468280:AAFjXX1E3NmAknKqlZP6AoSJWJwMY4aoPJA')
-text = 'Бот на тех работах'
+text = 'Я снова работаю и отправляю ответы :-)'
 
 
 # async def post():

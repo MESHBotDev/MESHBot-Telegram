@@ -27,7 +27,7 @@ def analytics(message: types.Message):
 async def manual(msg: types.Message):
     with open("package/client_lock.json", "r") as file:
         sys = load(file)
-    await msg.answer(f"""Привет, {msg.from_user.first_name}.\nЯ - бот {sys['name']}, решающий ЦДЗ. (v. {sys['version']})
+    await msg.answer(f"""Привет, {msg.from_user.first_name}.\nЯ - бот {sys['name']}, решающий ЦДЗ.(v. {sys['version']})
     \nВК создателя: {sys['vk']}\n
 Для начала работы, отправь мне ссылку на тест и я постараюсь найти ответы.\n
 Если возникла какая-либо проблема, ошибка, баг обратитесь в чат поддержки: {sys['help_place']}.
@@ -62,11 +62,12 @@ async def get_text_messages(msg: types.Message):
                     while answer not in result_answers:
                         result_answers.append(answer)
         except:
-            await msg.answer(''.join(result_answers))
+            # await msg.answer(''.join(result_answers))
+            await msg.answer('Хм странно, но я ничего не нашел. Проверь правильность ссылки или нажми /help')
         try:
             for task_number, task in enumerate(result_answers):
                 await msg.answer(f"Вопрос №{task_number + 1}: {task[0]}\n\nОтвет: {task[1]}")
-            await msg.answer(f"Сделано за {'%s секунд' % round((time.time() - start_time), 1)}")
+            await msg.answer(f"Решено за {'%s секунд' % round((time.time() - start_time), 1)}")
         except:
             await msg.answer(''.join(result_answers))
     else:
