@@ -1,7 +1,6 @@
 from json import load
 from datetime import datetime
 import time
-from functools import lru_cache
 
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
@@ -41,7 +40,7 @@ async def admin(msg: types.Message):
         if msg.from_user.id in admin_id:
             counter = 0
             for number, id_user in enumerate(analytic.readlines()):
-                await msg.answer(f'{number+1}. User: {id_user}')
+                await msg.answer(f'{number + 1}. User: {id_user}')
                 counter += 1
             await msg.answer(f'🙈Всего пользователей: {counter}')
         else:
@@ -49,20 +48,13 @@ async def admin(msg: types.Message):
 
 
 @client.message_handler(content_types=["text"])
-@lru_cache(None)
 async def get_text_messages(msg: types.Message):
     if msg.text.startswith("http"):
-        result_answers = []
         try:
             start_time = time.time()
             await msg.answer("👽Начал решать...")
-            for all_answers in range(25):
-                answers = core.get_answers(link=msg.text)
-                for answer in answers:
-                    while answer not in result_answers:
-                        result_answers.append(answer)
-
-            for task_number, task in enumerate(result_answers):
+            answers = core.get_answers(link=msg.text)
+            for task_number, task in enumerate(answers):
                 await msg.answer(f"Вопрос №{task_number + 1}: {task[0]}\n\nОтвет: {task[1]}")
             await msg.answer(f"⏳Решено за {'%s секунд' % round((time.time() - start_time), 1)}")
         except:
