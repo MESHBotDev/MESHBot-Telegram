@@ -13,4 +13,4 @@ def get_answers(link: str):
                     result_answers.append(answer)
         return result_answers
     except:
-        return '🤔Хм странно, но я ничего не нашел. Проверь правильность ссылки или нажми /help'
+        return None
