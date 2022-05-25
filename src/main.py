@@ -66,8 +66,8 @@ async def get_text_messages(msg: types.Message):
     if msg.text.startswith("http"):
         try:
             start_time = time()
+            await msg.answer("👽Начал решать...")
             answers = core.get_answers(link=msg.text)
-            await msg.answer("👽Начал решать...") if answers else None
             for task_number, task in enumerate(answers):
                 await msg.answer(f"✏Вопрос №{task_number + 1}: {task[0]}\n\n✅Ответ: {task[1]}")
             await msg.answer(f"⏳Решено за {'%s секунд' % round((time() - start_time), 1)}")
