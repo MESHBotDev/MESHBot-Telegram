@@ -8,7 +8,7 @@ from aiogram.utils import executor
 
 import core.searching_answers as core
 
-with open("package/client.json", "r") as telegram_data:
+with open("src/package/client.json", "r") as telegram_data:
     data = load(telegram_data)
 bot = Bot(token=data["telegram_token"])
 client = Dispatcher(bot)
@@ -35,7 +35,7 @@ def post(message: types.Message):
 
 @client.message_handler(commands=["start", "help", "хелп", "помощь", "гайд"])
 async def manual(msg: types.Message):
-    with open("package/client_lock.json", "r") as file:
+    with open("src/package/client_lock.json", "r") as file:
         sys = load(file)
     await msg.answer(f"""👋Привет, {msg.from_user.first_name}.\n
 ❗Для начала работы, отправь мне ссылку на тест и я постараюсь найти ответы.\n📝Пример ссылки: {sys['example']}\n
