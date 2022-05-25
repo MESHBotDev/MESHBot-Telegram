@@ -18,7 +18,7 @@ id_users = [857280061, 612533221, 489951151, 487829634,
 
 
 def analytics(message: types.Message):
-    with open('analytics.txt', '+r') as user_id:
+    with open('src/analytics.txt', '+r') as user_id:
         if str(message.from_user.id) not in user_id.read():
             user_id.write(f'{message.from_user.id, message.from_user.username}\n')
 
