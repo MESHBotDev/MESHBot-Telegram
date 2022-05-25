@@ -1,3 +1,2 @@
 aiogram==2.20
-libmesh==0.0.6
 datetime==4.4
