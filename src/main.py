@@ -50,7 +50,7 @@ async def manual(msg: types.Message):
 
 @client.message_handler(commands=['admin', 'analytics'])
 async def admin(msg: types.Message):
-    with open("analytics.txt", "r") as analytic:
+    with open("src/analytics.txt", "r") as analytic:
         if msg.from_user.id in admin_id:
             counter = 0
             for number, id_user in enumerate(analytic.readlines()):
