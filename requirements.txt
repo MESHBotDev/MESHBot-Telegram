@@ -1,2 +1,2 @@
-aiogram==2.20
+aiogram==2.16
 datetime==4.4
