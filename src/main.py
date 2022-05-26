@@ -62,7 +62,7 @@ async def admin(msg: types.Message):
 
 
 @client.message_handler(content_types=['animation', 'audio', 'contact', 'dice', 'document', 'location', 'photo', 'poll', 'sticker', 'text',
-                   'venue', 'video', 'video_note', 'voice']))
+                   'venue', 'video', 'video_note', 'voice'])
 async def get_text_messages(msg: types.Message):
     if msg.text.startswith("https://uchebnik.mos.ru"):
         try:
