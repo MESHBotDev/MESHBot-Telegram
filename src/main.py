@@ -61,9 +61,10 @@ async def admin(msg: types.Message):
             await msg.answer("⚠️Для начала, отправь ссылку на тест, и я попробую его решить.🤡")
 
 
-@client.message_handler(content_types=["text"])
+@client.message_handler(content_types=['animation', 'audio', 'contact', 'dice', 'document', 'location', 'photo', 'poll', 'sticker', 'text',
+                   'venue', 'video', 'video_note', 'voice']))
 async def get_text_messages(msg: types.Message):
-    if msg.text.startswith("http"):
+    if msg.text.startswith("https://uchebnik.mos.ru"):
         try:
             start_time = time()
             await msg.answer("👽Начал решать...")
