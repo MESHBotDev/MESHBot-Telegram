@@ -64,6 +64,10 @@ async def admin(msg: types.Message):
 @client.message_handler(content_types=['animation', 'audio', 'contact', 'dice', 'document', 'location', 'photo', 'poll', 'sticker', 'text',
                    'venue', 'video', 'video_note', 'voice'])
 async def get_text_messages(msg: types.Message):
+    if msg.animation or msg.audio or msg.contact or msg.dice or msg.document or msg.location\
+            or msg.photo or msg.poll or msg.sticker or msg.sticker or msg.venue or msg.video\
+            or msg.video_note or msg.voice:
+        await msg.answer("⚠️Для начала, отправь ссылку на тест, и я попробую его решить.🛸")
     if msg.text.startswith("https://uchebnik.mos.ru"):
         try:
             start_time = time()
