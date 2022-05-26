@@ -6,9 +6,8 @@ from functools import lru_cache
 def get_answers(link: str):
     try:
         result_answers = []
-        for all_answers in range(25):
+        for all_answers in range(20):
             answers = mesh.get_answers(link)
-#             result_answers = [answer for answer in answers if answer not in result_answers]
             for answer in answers:
                 if answer not in result_answers:
                     result_answers.append(answer)
