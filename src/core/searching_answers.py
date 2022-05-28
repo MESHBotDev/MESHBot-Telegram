@@ -1,8 +1,8 @@
 import mesh
-from functools import lru_cache
+from functools import cache
 
 
-@lru_cache(None)
+@cache
 def get_answers(link: str):
     try:
         result_answers = []
