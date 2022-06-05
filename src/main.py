@@ -12,9 +12,8 @@ with open("src/package/client.json", "r") as telegram_data:
     data = load(telegram_data)
 bot = Bot(token=data["telegram_token"])
 client = Dispatcher(bot)
-admin_id = [489951151, 857280061]
-id_users = [857280061, 612533221, 489951151, 487829634,
-            864661061, 979792282, 915175634, 714979445, 689676294, 673645391, 1613440653, 507109434]
+admin_id = []   #here put id admins
+id_users = []
 
 
 def analytics(message: types.Message):
