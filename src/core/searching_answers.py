@@ -1,9 +1,12 @@
 import mesh
+from functools import cache
 
-def get_answers(link: str):
+
+@cache
+def get_answers(link: str) -> list:
     try:
-        answers = mesh.get_answers(link)
-        temp = answers[0]
-        return answers
+        result_answers = []
+        [result_answers.append(answer) for _ in range(20) for answer in mesh.get_answers(link) if answer not in result_answers]
+        return result_answers
     except:
-        return "Я не могу найти ответы на этот тест. Проверьте правильность ссылки и попробуйте ещё раз."
+        return '⚠️Хм странно, но я ничего не нашел. Проверь правильность ссылки или нажми 👉/help👈'
